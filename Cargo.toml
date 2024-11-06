@@ -1,6 +1,12 @@
 [package]
-name = "html-parser"
+name = "html_parser"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "A simple parser of html markdown"
+authors = ["Oleksandr Igumnov"]
 
 [dependencies]
+anyhow = "1.0.93"
+pest = "2.7.14"
+pest_derive = "2.7.14"

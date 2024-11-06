@@ -1,0 +1,22 @@
+hyphen = _{"-"}
+exclamation_mark = _{"!"}
+question_mark = _{"?"}
+underscore = _{"_"}
+equation_mark = _{"="}
+single_quote = _{"'"}
+double_quote = _{"\""}
+left_chevron = _{"<"}
+right_chevron = _{">"}
+slash = _{"/"}
+whitespace = _{" " | "\n" | "\r" | "\t"}
+
+digit = _{'0'..'9'}
+alpha = _{'a'..'z' | 'A'..'Z'}
+special_symbol = _{hyphen | exclamation_mark | question_mark | underscore | equation_mark | single_quote | double_quote | left_chevron | right_chevron | slash}
+tag_name = @{alpha ~ ((alpha | digit) ~ hyphen{, 1})*}
+
+opening_tag = @{left_chevron ~ tag_name ~ whitespace* ~ right_chevron}
+closing_tag = @{left_chevron ~ slash ~ tag_name ~ whitespace* ~ right_chevron}
+self_closing_tag = @{left_chevron ~ tag_name ~ whitespace* ~ slash ~ right_chevron}
+
+tag = @{opening_tag | closing_tag | self_closing_tag}
