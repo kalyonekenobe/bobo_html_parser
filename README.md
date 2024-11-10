@@ -1,5 +1,9 @@
 # bobo_html_parser
 
+Crates.io: [https://crates.io/crates/bobo_html_parser](https://crates.io/crates/bobo_html_parser)
+
+Docs.rs: [https://docs.rs/bobo_html_parser/latest/bobo_html_parser/](https://docs.rs/bobo_html_parser/latest/bobo_html_parser/)
+
 This project is a simple HTML parser built using Rust and the [Pest](https://crates.io/crates/pest)
 parsing library. It parses HTML documents, tags, attributes, nested structures, and text content.
 This parser is a foundation for more complex parsing logic, which can be extended to handle
