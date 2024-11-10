@@ -7,7 +7,6 @@ description = "A simple parser of html markdown"
 authors = ["Oleksandr Igumnov"]
 repository = "https://github.com/kalyonekenobe/bobo_html_parser"
 keywords = ["html", "parser", "pest"]
-categories = ["parsing", "html"]
 
 [dependencies]
 anyhow = "1.0.93"
