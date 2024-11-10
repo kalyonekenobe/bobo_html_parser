@@ -50,6 +50,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "bobo_html_parser"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "pest",
+ "pest_ascii_tree",
+ "pest_derive",
+ "structopt",
+ "thiserror 2.0.2",
+]
+
+[[package]]
 name = "cfg-if"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -131,18 +143,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
 dependencies = [
  "libc",
-]
-
-[[package]]
-name = "html_parser"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "pest",
- "pest_ascii_tree",
- "pest_derive",
- "structopt",
- "thiserror 2.0.2",
 ]
 
 [[package]]

@@ -1,4 +1,4 @@
-BIN_NAME = html_parser
+BIN_NAME = bobo_html_parser
 
 .PHONY: all
 all: build

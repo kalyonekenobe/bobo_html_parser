@@ -1,6 +1,6 @@
 #[cfg(test)]
 pub mod tests {
-    use html_parser::{
+    use bobo_html_parser::{
         core::{parse_html, parse_input_by_rule},
         grammar::Rule,
     };
@@ -87,8 +87,10 @@ pub mod tests {
 
     #[test]
     pub fn is_valid_closing_tag() -> anyhow::Result<()> {
-        let result: Result<pest::iterators::Pairs<'_, Rule>, html_parser::error::HtmlParserError> =
-            parse_input_by_rule(Rule::common_element, "<div></div>");
+        let result: Result<
+            pest::iterators::Pairs<'_, Rule>,
+            bobo_html_parser::error::HtmlParserError,
+        > = parse_input_by_rule(Rule::common_element, "<div></div>");
 
         assert!(result.is_ok());
         let tag = result.unwrap();
@@ -99,8 +101,10 @@ pub mod tests {
 
     #[test]
     pub fn is_invalid_closing_tag() -> anyhow::Result<()> {
-        let result: Result<pest::iterators::Pairs<'_, Rule>, html_parser::error::HtmlParserError> =
-            parse_input_by_rule(Rule::common_element, "<div></di>");
+        let result: Result<
+            pest::iterators::Pairs<'_, Rule>,
+            bobo_html_parser::error::HtmlParserError,
+        > = parse_input_by_rule(Rule::common_element, "<div></di>");
 
         assert!(result.is_err());
 

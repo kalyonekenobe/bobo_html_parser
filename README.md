@@ -1,4 +1,4 @@
-# html_parser
+# bobo_html_parser
 
 This project is a simple HTML parser built using Rust and the [Pest](https://crates.io/crates/pest)
 parsing library. It parses HTML documents, tags, attributes, nested structures, and text content.
@@ -201,19 +201,19 @@ html = {SOI ~ whitespace* ~ html_comment* ~ whitespace* ~ doctype_declaration? ~
 2. Clone the repository
 
 ```bash
-git clone https://github.com/kalyonekenobe/html_parser.git
+git clone https://github.com/kalyonekenobe/bobo_html_parser.git
 ```
 
 or using SSH
 
 ```bash
-git clone git@github.com:kalyonekenobe/html_parser.git
+git clone git@github.com:kalyonekenobe/bobo_html_parser.git
 ```
 
 3. Go to project's directory
 
 ```bash
-cd html_parser
+cd bobo_html_parser
 ```
 
 4. Build the project
@@ -267,7 +267,7 @@ You are also able to use `makefile` available in the root of the project.
 ## Project Structure
 
 ```
-html_parser/ 
+bobo_html_parser/ 
 └── src/ 
     └── grammar/
         ├── grammar.pest        # Grammar file for parsing HTML
@@ -293,7 +293,7 @@ html_parser/
 Here is the example of Rust code:
 
 ```rust
-use html_parser::core::{Grammar, Rule};
+use bobo_html_parser::core::{Grammar, Rule};
 use pest::Parser;
 use pest_ascii_tree::print_ascii_tree;
 

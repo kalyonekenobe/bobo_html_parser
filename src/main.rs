@@ -1,4 +1,4 @@
-use html_parser::{
+use bobo_html_parser::{
     cli::{Action, CommandLineArgs},
     core::{parse_html, print_parsed_tree, read_html_from_file},
     error::HtmlParserError,
