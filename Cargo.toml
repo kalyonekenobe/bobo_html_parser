@@ -5,8 +5,14 @@ edition = "2021"
 license = "MIT"
 description = "A simple parser of html markdown"
 authors = ["Oleksandr Igumnov"]
+repository = "https://github.com/kalyonekenobe/html_parser"
+keywords = ["html", "parser", "pest"]
+categories = ["parsing", "html"]
 
 [dependencies]
 anyhow = "1.0.93"
 pest = "2.7.14"
+pest_ascii_tree = "0.1.0"
 pest_derive = "2.7.14"
+structopt = "0.3.26"
+thiserror = "2.0.2"

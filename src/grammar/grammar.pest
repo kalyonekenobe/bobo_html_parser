@@ -1,22 +1,146 @@
+/// Matches a hyphen character.
 hyphen = _{"-"}
+
+/// Matches an exclamation mark character.
 exclamation_mark = _{"!"}
+
+/// Matches a question mark character.
 question_mark = _{"?"}
+
+/// Matches a underscore character.
 underscore = _{"_"}
+
+/// Matches a equation mark character.
 equation_mark = _{"="}
+
+/// Matches a single quote character.
 single_quote = _{"'"}
+
+/// Matches a double quote character.
 double_quote = _{"\""}
+
+/// Matches a left chevron character.
 left_chevron = _{"<"}
+
+/// Matches a right chevron character.
 right_chevron = _{">"}
+
+/// Matches a slash character.
 slash = _{"/"}
+
+/// Matches a whitespace characters.
 whitespace = _{" " | "\n" | "\r" | "\t"}
 
+/// Matches a digit.
 digit = _{'0'..'9'}
+
+/// Matches a small and big latin letters.
 alpha = _{'a'..'z' | 'A'..'Z'}
-special_symbol = _{hyphen | exclamation_mark | question_mark | underscore | equation_mark | single_quote | double_quote | left_chevron | right_chevron | slash}
-tag_name = @{alpha ~ ((alpha | digit) ~ hyphen{, 1})*}
 
-opening_tag = @{left_chevron ~ tag_name ~ whitespace* ~ right_chevron}
-closing_tag = @{left_chevron ~ slash ~ tag_name ~ whitespace* ~ right_chevron}
-self_closing_tag = @{left_chevron ~ tag_name ~ whitespace* ~ slash ~ right_chevron}
+/// Matches a left square bracket character.
+left_square_bracket = _{"["}
 
-tag = @{opening_tag | closing_tag | self_closing_tag}
+/// Matches a right square bracket character.
+right_square_bracket = _{"]"}
+
+/// Matches a dot character.
+dot = _{"."}
+
+/// Matches a comma character.
+comma = _{","}
+
+/// Matches a colon character.
+colon = _{":"}
+
+/// Matches a semicolon character.
+semicolon = _{";"}
+
+/// Matches a space character.
+space = _{" "}
+
+/// Matches a dollar character.
+dollar = _{"$"}
+
+/// Matches a ampersand character.
+ampersand = _{"&"}
+
+/// Matches the opening tag of an HTML comment (`<!--`).
+html_comment_opening_tag = _{left_chevron ~ exclamation_mark ~ hyphen ~ hyphen}
+
+/// Matches the closing tag of an HTML comment (`-->`).
+html_comment_closing_tag = _{hyphen ~ hyphen ~ right_chevron}
+
+/// Matches the content within an HTML comment, which can be any character except the opening or closing tag.
+html_comment_content = {(!(html_comment_opening_tag | html_comment_closing_tag) ~ ANY)*}
+
+/// Matches a complete HTML comment, including the opening tag, optional whitespace, content, and closing tag.
+html_comment = {html_comment_opening_tag ~ whitespace* ~ html_comment_content ~ whitespace* ~ html_comment_closing_tag}
+
+/// Matches the name of an HTML attribute, starting with an alphabetic character and followed by alphanumeric characters or hyphens.
+attribute_name = !{alpha ~ ((alpha | digit) ~ hyphen?)*}
+
+/// Matches the opening quote of an attribute value (`'` or `"`).
+attribute_value_opening_quote = @{PUSH("'" | "\"")}
+
+/// Matches the closing quote of an attribute value.
+attribute_value_closing_quote = @{POP}
+
+/// Matches the content of an attribute value, which can be any character except for the left chevron `<`, right chevron `>`, or the quote character.
+attribute_value = !{(!(left_chevron | right_chevron | PEEK) ~ ANY)*}
+
+/// Matches a complete attribute as a key-value pair (name="value").
+attribute = @{attribute_name ~ equation_mark ~ attribute_value_opening_quote ~ attribute_value ~ attribute_value_closing_quote}
+
+/// Matches the name of an HTML tag, starting with an alphabetic character and followed by alphanumeric characters or hyphens.
+tag_name = {alpha ~ ((alpha | digit) ~ hyphen?)*}
+
+/// Matches an opening HTML tag, which includes the tag name and optional attributes.
+opening_tag = {left_chevron ~ PUSH(tag_name) ~ (whitespace+ ~ attribute? ~ whitespace*)* ~ right_chevron}
+
+/// Matches a closing HTML tag, which includes a slash and the tag name.
+closing_tag = {left_chevron ~ slash ~ POP ~ whitespace* ~ right_chevron}
+
+/// Matches a self-closing HTML tag, which includes a tag name and a slash before the closing chevron.
+self_closing_tag = {left_chevron ~ tag_name ~ (whitespace+ ~ attribute? ~ whitespace*)* ~ slash ~ right_chevron}
+
+/// Matches plain text content within HTML that is not part of any HTML tags.
+html_text = {(!(html_element | left_chevron | right_chevron) ~ whitespace* ~ ANY)+}
+
+/// Matches an HTML element, which can be a self-closing element or a common element with opening and closing tags.
+html_element = {whitespace* ~ self_closing_element | common_element ~ whitespace*}
+
+/// Matches any valid HTML node, which can be a comment, an HTML element, or plain text.
+html_node = _{html_comment | html_element | html_text}
+
+/// Matches a standard HTML element with opening and closing tags and optional nested nodes.
+common_element = _{(opening_tag ~ whitespace* ~ (!closing_tag ~ html_node)* ~ whitespace* ~ closing_tag)}
+
+/// Matches a self-closing HTML element.
+self_closing_element = _{self_closing_tag}
+
+/// Matches the `DOCTYPE` keyword, which can appear at the beginning of an HTML document.
+doctype_keyword = _{^"DOCTYPE" | ^"doctype"}
+
+/// Matches the top-level element name in a `DOCTYPE` declaration, which is usually `HTML` or `html`.
+doctype_top_level_element = _{^"HTML" | ^"html"}
+
+/// Matches the privacy level in a `DOCTYPE` declaration, such as `PUBLIC` or `SYSTEM`.
+doctype_privacy_level = _{^"PUBLIC" | ^"SYSTEM" | ^"public" | ^"system"}
+
+/// Matches characters allowed in `DOCTYPE` parameters, including alphanumeric characters, hyphens, dots, colons, semicolons, and spaces.
+doctype_params_allowed_symbol = _{alpha | digit | hyphen | dot | colon | semicolon | comma | space}
+
+/// Matches characters allowed in a `DOCTYPE` URL, including various punctuation marks.
+doctype_url_allowed_symbol = _{doctype_params_allowed_symbol | exclamation_mark | question_mark | underscore | equation_mark | single_quote | slash | left_square_bracket | right_square_bracket | dollar | ampersand}
+
+/// Matches the parameters of a `DOCTYPE` declaration, typically in a quoted string.
+doctype_params = _{double_quote ~ doctype_params_allowed_symbol+ ~ slash ~ slash ~ doctype_params_allowed_symbol+ ~ slash ~ slash ~ doctype_params_allowed_symbol+ ~ slash ~ slash ~ doctype_params_allowed_symbol+ ~ double_quote}
+
+/// Matches a URL in a `DOCTYPE` declaration, typically in a quoted string.
+doctype_url = _{double_quote ~ doctype_url_allowed_symbol+ ~ double_quote}
+
+/// Matches a complete `DOCTYPE` declaration, which includes the `DOCTYPE` keyword, an optional top-level element, privacy level, parameters, and URL.
+doctype_declaration = {left_chevron ~ exclamation_mark ~ doctype_keyword ~ (whitespace+ ~ doctype_top_level_element ~ (whitespace+ ~ doctype_privacy_level ~ whitespace+ ~ doctype_params ~ whitespace+ ~ doctype_url)*)* ~ right_chevron}
+
+/// Matches a complete HTML document structure, including optional comments, an optional `DOCTYPE` declaration, and at least one HTML element.
+html = {SOI ~ whitespace* ~ html_comment* ~ whitespace* ~ doctype_declaration? ~ whitespace* ~ html_element ~ whitespace* ~ EOI}
