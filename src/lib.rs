@@ -31,4 +31,26 @@ pub mod core {
     pub fn print_parsed_tree(pairs: Pairs<Rule>) {
         eprintln!("{}", into_ascii_tree(pairs).unwrap());
     }
+
+    pub fn print_help() {
+        println!(
+            "BOBO HTML PARSER CLI\n\n\
+            USAGE:\n\
+            \tcargo run -- --file <path-to-the-file> parse\n\
+            \tcargo run -- help\n\n\
+            OPTIONS:\n\
+            \t-f, --file <FILE>     Specifies the path to the HTML file to parse\n\n\
+            SUBCOMMANDS:\n\
+            \tparse                 Parses the specified HTML file and outputs relevant data\n\
+            \thelp                  Prints help information\n\n\
+            DESCRIPTION:\n\
+            \tThis HTML parser CLI reads an HTML file from the specified path and processes\n\
+            \tthe content. It can analyze, validate, or extract data based on the file's structure.\n\n\
+            EXAMPLES:\n\
+            \tParse an HTML file located at './default.html':\n\
+            \t    cargo run -- --file ./default.html parse\n\n\
+            NOTE:\n\
+            \tEnsure that the file path is valid and points to an HTML file."
+        );
+    }
 }

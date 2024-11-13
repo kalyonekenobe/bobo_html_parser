@@ -5,6 +5,8 @@ use structopt::StructOpt;
 pub enum Action {
     /// Parse provided HTML file
     Parse,
+    /// Show help
+    Help,
 }
 
 #[derive(Debug, StructOpt)]
